@@ -1,6 +1,6 @@
 import { use, useState } from 'react';
 
-import type { User } from '../pages/Users';
+import type { User } from '../types/user';
 
 import UserCard from './UserCard';
 

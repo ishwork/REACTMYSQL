@@ -1,15 +1,9 @@
 import { getInitial, formatDate } from '../libs/utils';
 import { useState } from 'react';
-import { deleteUser } from '../actions/deleteUser';
 
-  type User = {
-    id: number;
-    name: string;
-    email: string;
-    city: string;
-    phone_number: string;
-    created_at: string;
-  }
+import type { User } from '../types/user';
+
+import { deleteUser } from '../actions/deleteUser';
 
 type UserCardProps = {
   user: User;
