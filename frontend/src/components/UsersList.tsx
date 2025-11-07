@@ -4,8 +4,8 @@ import type { User } from '../pages/Users';
 
 import UserCard from './UserCard';
 
-const UsersList = ({ usersList }: { usersList: Promise<User[]> }) => {
-  const allUsers = use(usersList);
+const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
+  const allUsers = use(usersPromise);
   const [users, setUsers] = useState(allUsers);
 
   const handleDelete = (userId: number) => {

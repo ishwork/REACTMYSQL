@@ -26,7 +26,8 @@ const Users = () => (
         </div>
       }
     >
-      <UsersList usersList={fetchUsers()} />
+      {/* fetchUsers() returns a Promise that UsersList unwraps with use() API */}
+      <UsersList usersPromise={fetchUsers()} />
     </Suspense>
   </div>
 );
