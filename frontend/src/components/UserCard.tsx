@@ -4,14 +4,17 @@ import { useState } from 'react';
 import type { User } from '../types/user';
 
 import { deleteUser } from '../actions/deleteUser';
+import EditUserModal from './EditUserModal';
 
 type UserCardProps = {
   user: User;
   onDelete: (userId: number) => void;
+  onUpdate: (updatedUser: User) => void;
 }
 
-const UserCard = ({ user, onDelete }: UserCardProps) => {
+const UserCard = ({ user, onDelete, onUpdate }: UserCardProps) => {
   const [isDeleting, setIsDeleting] = useState(false);
+  const [isEditing, setIsEditing] = useState(false);
 
   const handleDelete = async () => {
     if (!confirm(`Are you sure you want to delete ${user.name}?`)) {
@@ -30,7 +33,16 @@ const UserCard = ({ user, onDelete }: UserCardProps) => {
   };
 
   return (
-    <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-200 overflow-hidden">
+    <>
+      {isEditing && (
+        <EditUserModal
+          user={user}
+          onClose={() => setIsEditing(false)}
+          onUpdate={onUpdate}
+        />
+      )}
+      
+      <div className="bg-white rounded-xl shadow-md hover:shadow-xl transition-shadow duration-200 overflow-hidden">
       <div className="bg-linear-to-r from-purple-600 to-indigo-600 p-6 text-center">
         <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4 text-purple-600 text-2xl font-bold">
           {getInitial(user.name)}
@@ -63,15 +75,24 @@ const UserCard = ({ user, onDelete }: UserCardProps) => {
         <span className="text-sm text-gray-500 italic">
           Added: {formatDate(user.created_at)}
         </span>
-        <button
-          onClick={handleDelete}
-          disabled={isDeleting}
-          className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-        >
-          {isDeleting ? 'Deleting...' : 'Delete'}
-        </button>
+        <div className="flex gap-2">
+          <button
+            onClick={() => setIsEditing(true)}
+            className="px-4 py-2 bg-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-blue-700 transition-colors"
+          >
+            Edit
+          </button>
+          <button
+            onClick={handleDelete}
+            disabled={isDeleting}
+            className="px-4 py-2 bg-red-600 text-white text-sm font-semibold rounded-lg hover:bg-red-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          >
+            {isDeleting ? 'Deleting...' : 'Delete'}
+          </button>
+        </div>
       </div>
     </div>
+    </>
   );
 };
 

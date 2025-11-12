@@ -4,7 +4,7 @@ A modern full-stack CRUD application showcasing **React 19's latest features** i
 
 ## Project Overview
 
-This project demonstrates a complete user management system with create, read, and delete operations. It emphasizes modern React 19 patterns and best practices for data fetching and form handling.
+This project demonstrates a complete user management system with **full CRUD operations** (Create, Read, Update, Delete). It emphasizes modern React 19 patterns and best practices for data fetching and form handling using `useActionState` and the `use()` API.
 
 ## Screenshots
 
@@ -39,7 +39,9 @@ const UsersList = ({ usersList }: { usersList: Promise<User[]> }) => {
 - **Built-in pending states** - No manual loading state management
 - **Automatic form handling** - Native FormData API integration
 - **Server actions pattern** - Clean separation of concerns
+- **Used for both Create and Update operations** - Consistent pattern across mutations
 
+**Creating Users:**
 ```tsx
 const [state, formAction, isPending] = useActionState(createUserAction, initialState);
 
@@ -47,6 +49,19 @@ const [state, formAction, isPending] = useActionState(createUserAction, initialS
   <input name="email" />
   <button disabled={isPending}>
     {isPending ? 'Creating...' : 'Create User'}
+  </button>
+</form>
+```
+
+**Updating Users:**
+```tsx
+const [state, formAction, isPending] = useActionState(updateUserAction, initialState);
+
+<form action={formAction}>
+  <input type="hidden" name="userId" value={user.id} />
+  <input name="name" defaultValue={user.name} />
+  <button disabled={isPending}>
+    {isPending ? 'Updating...' : 'Update User'}
   </button>
 </form>
 ```
@@ -141,6 +156,7 @@ http://localhost:3000
 | GET | `/api/test` | Health check |
 | GET | `/api/users` | Get all users |
 | POST | `/api/users` | Create new user |
+| PUT | `/api/users/:id` | Update user by ID |
 | DELETE | `/api/users/:id` | Delete user by ID |
 
 ## Key Concepts

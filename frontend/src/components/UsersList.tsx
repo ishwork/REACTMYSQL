@@ -12,6 +12,10 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
     setUsers(users.filter(user => user.id !== userId));
   };
 
+  const handleUpdate = (updatedUser: User) => {
+    setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
+  };
+
   return (
     <>
       <p className="text-xl text-gray-600 mb-8 text-center">
@@ -25,7 +29,12 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
           </p>
         ) : (
           users.map((user: User) => (
-            <UserCard key={user.id} user={user} onDelete={handleDelete} />
+            <UserCard 
+              key={user.id} 
+              user={user} 
+              onDelete={handleDelete}
+              onUpdate={handleUpdate}
+            />
           ))
         )}
       </div>

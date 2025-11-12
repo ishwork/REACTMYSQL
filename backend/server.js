@@ -114,6 +114,55 @@ app.delete('/api/users/:id', async (req, res) => {
   }
 });
 
+// PUT - Update a user by ID
+app.put('/api/users/:id', async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email, city, phone_number } = req.body;
+    
+    // Validate required fields
+    if (!name || !email) {
+      return res.status(400).json({ 
+        success: false,
+        message: 'Name and email are required fields' 
+      });
+    }
+
+    const [result] = await db.query(
+      'UPDATE test_users SET name = ?, email = ?, city = ?, phone_number = ? WHERE id = ?',
+      [name, email, city || null, phone_number || null, id]
+    );
+    
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ 
+        success: false,
+        message: 'User not found' 
+      });
+    }
+    
+    res.json({ 
+      success: true,
+      message: 'User updated successfully' 
+    });
+  } catch (error) {
+    console.error('Error updating user:', error);
+    
+    // Handle duplicate email error
+    if (error.code === 'ER_DUP_ENTRY') {
+      return res.status(409).json({ 
+        success: false,
+        message: 'Email already exists' 
+      });
+    }
+    
+    res.status(500).json({ 
+      success: false,
+      message: 'Error updating user', 
+      error: error.message 
+    });
+  }
+});
+
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
