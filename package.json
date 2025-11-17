@@ -1,0 +1,36 @@
+{
+  "type": "module",
+  "devDependencies": {
+    "@eslint/js": "^9.39.1",
+    "eslint": "^9.39.1",
+    "eslint-config-prettier": "^10.1.8",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.4.24",
+    "globals": "^16.5.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^16.2.6",
+    "prettier": "^3.6.2",
+    "typescript-eslint": "^8.46.4"
+  },
+  "scripts": {
+    "prepare": "husky",
+    "format": "prettier --write \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "lint": "eslint .",
+    "lint:frontend": "eslint frontend/**/*.{ts,tsx}",
+    "lint:backend": "eslint backend/**/*.js"
+  },
+  "lint-staged": {
+    "frontend/**/*.{js,jsx,ts,tsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "backend/**/*.js": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "**/*.{json,css,md}": [
+      "prettier --write"
+    ]
+  }
+}

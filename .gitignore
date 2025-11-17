@@ -1,0 +1,8 @@
+# Dependencies
+node_modules/
+
+# Lock files
+package-lock.json
+
+# Husky (optional)
+# .husky/
