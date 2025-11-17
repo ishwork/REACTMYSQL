@@ -9,8 +9,8 @@ const Users = () => (
     <h1 className="text-4xl font-bold text-gray-800 mb-2 text-center">
       Users Directory
     </h1>
-    
-    <Suspense 
+
+    <Suspense
       fallback={
         <div className="text-center text-2xl text-gray-600 py-16">
           Loading users...

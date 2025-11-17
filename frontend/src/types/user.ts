@@ -5,4 +5,4 @@ export type User = {
   city: string;
   phone_number: string;
   created_at: string;
-}
+};

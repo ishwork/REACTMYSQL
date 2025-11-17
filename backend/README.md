@@ -5,6 +5,7 @@ Express.js backend with MySQL database connection.
 ## Setup
 
 1. Install dependencies:
+
    ```bash
    npm install
    ```
@@ -21,10 +22,11 @@ Express.js backend with MySQL database connection.
      ```
 
 3. Create a test database and table:
+
    ```sql
    CREATE DATABASE your_database_name;
    USE your_database_name;
-   
+
    CREATE TABLE users (
      id INT AUTO_INCREMENT PRIMARY KEY,
      name VARCHAR(255) NOT NULL,
@@ -34,10 +36,11 @@ Express.js backend with MySQL database connection.
    ```
 
 4. Run the server:
+
    ```bash
    # Development mode (with auto-restart)
    npm run dev
-   
+
    # Production mode
    npm start
    ```
