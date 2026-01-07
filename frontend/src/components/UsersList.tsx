@@ -9,11 +9,13 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
   const [users, setUsers] = useState(allUsers);
 
   const handleDelete = (userId: number) => {
-    setUsers(users.filter(user => user.id !== userId));
+    setUsers(users.filter((user) => user.id !== userId));
   };
 
   const handleUpdate = (updatedUser: User) => {
-    setUsers(users.map(user => user.id === updatedUser.id ? updatedUser : user));
+    setUsers(
+      users.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    );
   };
 
   return (
@@ -21,7 +23,7 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
       <p className="text-xl text-gray-600 mb-8 text-center">
         Total Users: {users.length}
       </p>
-      
+
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-8">
         {users.length === 0 ? (
           <p className="col-span-full text-center text-xl text-gray-500 py-16">
@@ -29,9 +31,9 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
           </p>
         ) : (
           users.map((user: User) => (
-            <UserCard 
-              key={user.id} 
-              user={user} 
+            <UserCard
+              key={user.id}
+              user={user}
               onDelete={handleDelete}
               onUpdate={handleUpdate}
             />
@@ -40,6 +42,6 @@ const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
       </div>
     </>
   );
-}
+};
 
 export default UsersList;

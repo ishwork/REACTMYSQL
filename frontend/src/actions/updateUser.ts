@@ -5,7 +5,7 @@ type ActionState = {
   message: string;
   error?: string;
   updatedData?: Omit<User, 'id' | 'created_at'>;
-}
+};
 
 export async function updateUserAction(
   _prevState: ActionState,
@@ -22,7 +22,7 @@ export async function updateUserAction(
       return {
         success: false,
         message: '',
-        error: 'User ID is required'
+        error: 'User ID is required',
       };
     }
 
@@ -30,7 +30,7 @@ export async function updateUserAction(
       return {
         success: false,
         message: '',
-        error: 'Name and email are required'
+        error: 'Name and email are required',
       };
     }
 
@@ -50,20 +50,21 @@ export async function updateUserAction(
       return {
         success: false,
         message: '',
-        error: data.message || 'Failed to update user'
+        error: data.message || 'Failed to update user',
       };
     }
 
     return {
       success: true,
       message: 'User updated successfully!',
-      updatedData: userData
+      updatedData: userData,
     };
   } catch (error) {
     return {
       success: false,
       message: '',
-      error: error instanceof Error ? error.message : 'An unexpected error occurred'
+      error:
+        error instanceof Error ? error.message : 'An unexpected error occurred',
     };
   }
 }

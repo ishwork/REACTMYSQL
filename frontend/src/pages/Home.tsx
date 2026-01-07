@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { useActionState, useEffect } from 'react';
+import { useActionState } from 'react';
 import { createUserAction } from '../actions/userActions';
 
 const initialState = {
@@ -9,13 +9,10 @@ const initialState = {
 };
 
 const Home = () => {
-  const [state, formAction, isPending] = useActionState(createUserAction, initialState);
-
-  useEffect(() => {
-    if (state.success && state.message) {
-      // Reset form on success - the form will automatically reset via key prop
-    }
-  }, [state.success, state.message]);
+  const [state, formAction, isPending] = useActionState(
+    createUserAction,
+    initialState
+  );
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
@@ -23,10 +20,10 @@ const Home = () => {
         <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-linear-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent">
           Welcome to User Management System
         </h1>
-        
+
         <div className="mb-12">
-          <Link 
-            to="/users" 
+          <Link
+            to="/users"
             className="inline-block px-8 py-4 bg-linear-to-r from-purple-600 to-indigo-600 text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transform hover:-translate-y-1 transition-all duration-200"
           >
             View All Users
@@ -36,8 +33,10 @@ const Home = () => {
 
       {/* Add User Form */}
       <div className="bg-white rounded-xl shadow-lg p-8 max-w-2xl mx-auto">
-        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">Add New User</h2>
-        
+        <h2 className="text-3xl font-bold text-gray-800 mb-6 text-center">
+          Add New User
+        </h2>
+
         {state.message && (
           <div className="mb-6 p-4 rounded-lg bg-green-50 text-green-700 border border-green-200">
             {state.message}
@@ -50,9 +49,16 @@ const Home = () => {
           </div>
         )}
 
-        <form action={formAction} className="space-y-6" key={state.success ? Date.now() : undefined}>
+        <form
+          action={formAction}
+          className="space-y-6"
+          key={state.success ? 'success' : 'idle'}
+        >
           <div>
-            <label htmlFor="name" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="name"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
               Name <span className="text-red-500">*</span>
             </label>
             <input
@@ -66,7 +72,10 @@ const Home = () => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="email"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
               Email <span className="text-red-500">*</span>
             </label>
             <input
@@ -80,7 +89,10 @@ const Home = () => {
           </div>
 
           <div>
-            <label htmlFor="city" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="city"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
               City
             </label>
             <input
@@ -93,7 +105,10 @@ const Home = () => {
           </div>
 
           <div>
-            <label htmlFor="phone_number" className="block text-sm font-semibold text-gray-700 mb-2">
+            <label
+              htmlFor="phone_number"
+              className="block text-sm font-semibold text-gray-700 mb-2"
+            >
               Phone Number
             </label>
             <input

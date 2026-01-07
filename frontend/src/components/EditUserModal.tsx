@@ -7,7 +7,7 @@ type EditUserModalProps = {
   user: User;
   onClose: () => void;
   onUpdate: (updatedUser: User) => void;
-}
+};
 
 const initialState = {
   success: false,
@@ -25,7 +25,7 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
     if (state.success && state.updatedData) {
       const updatedUser: User = {
         ...user,
-        ...state.updatedData
+        ...state.updatedData,
       };
       onUpdate(updatedUser);
       onClose();
@@ -53,9 +53,12 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
 
         <form action={formAction} className="space-y-4">
           <input type="hidden" name="userId" value={user.id} />
-          
+
           <div>
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="name"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Name *
             </label>
             <input
@@ -69,7 +72,10 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
           </div>
 
           <div>
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="email"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Email *
             </label>
             <input
@@ -83,7 +89,10 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
           </div>
 
           <div>
-            <label htmlFor="city" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="city"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               City
             </label>
             <input
@@ -96,7 +105,10 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
           </div>
 
           <div>
-            <label htmlFor="phone_number" className="block text-sm font-medium text-gray-700 mb-1">
+            <label
+              htmlFor="phone_number"
+              className="block text-sm font-medium text-gray-700 mb-1"
+            >
               Phone Number
             </label>
             <input

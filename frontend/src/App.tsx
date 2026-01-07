@@ -10,24 +10,24 @@ const App = () => {
         <nav className="bg-white shadow-md sticky top-0 z-50">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="flex justify-between items-center h-16">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-2xl font-bold bg-gradient-to-r from-purple-600 to-indigo-600 bg-clip-text text-transparent"
               >
                 User Management
               </Link>
               <ul className="flex space-x-8">
                 <li>
-                  <Link 
-                    to="/" 
+                  <Link
+                    to="/"
                     className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200"
                   >
                     Home
                   </Link>
                 </li>
                 <li>
-                  <Link 
-                    to="/users" 
+                  <Link
+                    to="/users"
                     className="text-gray-700 hover:text-purple-600 font-medium transition-colors duration-200"
                   >
                     Users
@@ -47,6 +47,6 @@ const App = () => {
       </div>
     </Router>
   );
-}
+};
 
 export default App;

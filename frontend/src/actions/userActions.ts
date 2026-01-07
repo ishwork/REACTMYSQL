@@ -2,10 +2,13 @@ type ActionState = {
   success: boolean;
   message: string | null;
   error: string | null;
-}
+};
 
 // Server action for creating a user
-export const createUserAction = async (prevState: ActionState, formData: FormData): Promise<ActionState> => {
+export const createUserAction = async (
+  prevState: ActionState,
+  formData: FormData
+): Promise<ActionState> => {
   const name = formData.get('name') as string;
   const email = formData.get('email') as string;
   const city = formData.get('city') as string;

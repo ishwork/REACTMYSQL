@@ -17,10 +17,10 @@ app.use(express.urlencoded({ extended: true }));
 
 // Test route - Check if API is running
 app.get('/api/test', (req, res) => {
-  res.json({ 
+  res.json({
     success: true,
     message: 'API is working successfully!',
-    timestamp: new Date().toISOString()
+    timestamp: new Date().toISOString(),
   });
 });
 
@@ -28,12 +28,12 @@ app.get('/api/test', (req, res) => {
 app.post('/api/users', async (req, res) => {
   try {
     const { name, email, city, phone_number } = req.body;
-    
+
     // Validate required fields
     if (!name || !email) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'Name and email are required fields' 
+        message: 'Name and email are required fields',
       });
     }
 
@@ -41,27 +41,27 @@ app.post('/api/users', async (req, res) => {
       'INSERT INTO test_users (name, email, city, phone_number) VALUES (?, ?, ?, ?)',
       [name, email, city || null, phone_number || null]
     );
-    
-    res.status(201).json({ 
+
+    res.status(201).json({
       success: true,
-      message: 'User created successfully', 
-      userId: result.insertId 
+      message: 'User created successfully',
+      userId: result.insertId,
     });
   } catch (error) {
     console.error('Error creating user:', error);
-    
+
     // Handle duplicate email error
     if (error.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ 
+      return res.status(409).json({
         success: false,
-        message: 'Email already exists' 
+        message: 'Email already exists',
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       success: false,
-      message: 'Error creating user', 
-      error: error.message 
+      message: 'Error creating user',
+      error: error.message,
     });
   }
 });
@@ -69,19 +69,21 @@ app.post('/api/users', async (req, res) => {
 // GET - Get all users from the table
 app.get('/api/users', async (req, res) => {
   try {
-    const [rows] = await db.query('SELECT * FROM test_users ORDER BY created_at DESC');
-    
-    res.json({ 
+    const [rows] = await db.query(
+      'SELECT * FROM test_users ORDER BY created_at DESC'
+    );
+
+    res.json({
       success: true,
       count: rows.length,
-      data: rows 
+      data: rows,
     });
   } catch (error) {
     console.error('Error fetching users:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'Error fetching users', 
-      error: error.message 
+      message: 'Error fetching users',
+      error: error.message,
     });
   }
 });
@@ -90,26 +92,28 @@ app.get('/api/users', async (req, res) => {
 app.delete('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
-    
-    const [result] = await db.query('DELETE FROM test_users WHERE id = ?', [id]);
-    
+
+    const [result] = await db.query('DELETE FROM test_users WHERE id = ?', [
+      id,
+    ]);
+
     if (result.affectedRows === 0) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found',
       });
     }
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: 'User deleted successfully' 
+      message: 'User deleted successfully',
     });
   } catch (error) {
     console.error('Error deleting user:', error);
-    res.status(500).json({ 
+    res.status(500).json({
       success: false,
-      message: 'Error deleting user', 
-      error: error.message 
+      message: 'Error deleting user',
+      error: error.message,
     });
   }
 });
@@ -119,12 +123,12 @@ app.put('/api/users/:id', async (req, res) => {
   try {
     const { id } = req.params;
     const { name, email, city, phone_number } = req.body;
-    
+
     // Validate required fields
     if (!name || !email) {
-      return res.status(400).json({ 
+      return res.status(400).json({
         success: false,
-        message: 'Name and email are required fields' 
+        message: 'Name and email are required fields',
       });
     }
 
@@ -132,44 +136,45 @@ app.put('/api/users/:id', async (req, res) => {
       'UPDATE test_users SET name = ?, email = ?, city = ?, phone_number = ? WHERE id = ?',
       [name, email, city || null, phone_number || null, id]
     );
-    
+
     if (result.affectedRows === 0) {
-      return res.status(404).json({ 
+      return res.status(404).json({
         success: false,
-        message: 'User not found' 
+        message: 'User not found',
       });
     }
-    
-    res.json({ 
+
+    res.json({
       success: true,
-      message: 'User updated successfully' 
+      message: 'User updated successfully',
     });
   } catch (error) {
     console.error('Error updating user:', error);
-    
+
     // Handle duplicate email error
     if (error.code === 'ER_DUP_ENTRY') {
-      return res.status(409).json({ 
+      return res.status(409).json({
         success: false,
-        message: 'Email already exists' 
+        message: 'Email already exists',
       });
     }
-    
-    res.status(500).json({ 
+
+    res.status(500).json({
       success: false,
-      message: 'Error updating user', 
-      error: error.message 
+      message: 'Error updating user',
+      error: error.message,
     });
   }
 });
 
 // Error handling middleware
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).json({ 
+  res.status(500).json({
     success: false,
-    message: 'Something went wrong!', 
-    error: err.message 
+    message: 'Something went wrong!',
+    error: err.message,
   });
 });
 
