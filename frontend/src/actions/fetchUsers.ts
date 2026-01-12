@@ -1,5 +1,3 @@
-import { cache } from 'react';
-
 type User = {
   id: number;
   name: string;
@@ -9,7 +7,7 @@ type User = {
   created_at: string;
 };
 
-const fetchUsersFromAPI = async (): Promise<User[]> => {
+export const fetchUsers = async (): Promise<User[]> => {
   try {
     const response = await fetch('http://localhost:5000/api/users');
 
@@ -29,5 +27,3 @@ const fetchUsersFromAPI = async (): Promise<User[]> => {
     throw error;
   }
 };
-
-export const fetchUsers = cache(fetchUsersFromAPI);
