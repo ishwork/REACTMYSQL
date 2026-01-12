@@ -1,22 +1,57 @@
-import { use, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 
 import type { User } from '../types/user';
+import { fetchUsers } from '../actions/fetchUsers';
 
 import UserCard from './UserCard';
 
-const UsersList = ({ usersPromise }: { usersPromise: Promise<User[]> }) => {
-  const allUsers = use(usersPromise);
-  const [users, setUsers] = useState(allUsers);
+const UsersList = () => {
+  const [users, setUsers] = useState<User[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
 
-  const handleDelete = (userId: number) => {
-    setUsers(users.filter((user) => user.id !== userId));
-  };
+  useEffect(() => {
+    const loadUsers = async () => {
+      try {
+        setLoading(true);
+        const data = await fetchUsers();
+        setUsers(data);
+        setError(null);
+      } catch (err) {
+        setError(err instanceof Error ? err.message : 'Failed to load users');
+      } finally {
+        setLoading(false);
+      }
+    };
 
-  const handleUpdate = (updatedUser: User) => {
-    setUsers(
-      users.map((user) => (user.id === updatedUser.id ? updatedUser : user))
+    loadUsers();
+  }, []);
+
+  const handleDelete = useCallback((userId: number) => {
+    setUsers((prevUsers) => prevUsers.filter((user) => user.id !== userId));
+  }, []);
+
+  const handleUpdate = useCallback((updatedUser: User) => {
+    setUsers((prevUsers) =>
+      prevUsers.map((user) => (user.id === updatedUser.id ? updatedUser : user))
     );
-  };
+  }, []);
+
+  if (loading) {
+    return (
+      <div className="text-center text-2xl text-gray-600 py-16">
+        Loading users...
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-center text-xl text-red-600 py-16">
+        Error: {error}
+      </div>
+    );
+  }
 
   return (
     <>
