@@ -1,10 +1,10 @@
 # React 19 + MySQL User Management System
 
-A modern full-stack CRUD application showcasing **React 19's latest features** including `useActionState` and the `use()` API, built with Express.js backend and MySQL database.
+A modern full-stack CRUD application showcasing **React 19's latest features** including `useActionState` hook, built with Express.js backend and MySQL database.
 
 ## Project Overview
 
-This project demonstrates a complete user management system with **full CRUD operations** (Create, Read, Update, Delete). It emphasizes modern React 19 patterns and best practices for data fetching and form handling using `useActionState` and the `use()` API.
+This project demonstrates a complete user management system with **full CRUD operations** (Create, Read, Update, Delete). It emphasizes modern React 19 patterns and best practices for data fetching and form handling using `useActionState` hook.
 
 ## Screenshots
 
@@ -16,26 +16,10 @@ _Create new users with `useActionState` for form handling_
 ### Users Directory
 
 ![Users Page](./frontend/public/users.png)
-_View all users fetched with React 19's `use()` API and Suspense_
 
 ## Key Features
 
-### React 19 Modern APIs
-
-#### `use()` API for Data Fetching
-
-- **Suspense-based data fetching** - Declarative loading states
-- **Promise unwrapping** - Clean async data handling without useEffect
-- **Built-in caching** - Using React's `cache()` function for optimized performance
-- **No manual loading states** - Suspense handles it automatically
-
-```tsx
-const UsersList = ({ usersList }: { usersList: Promise<User[]> }) => {
-  const users = use(usersList); // Unwrap the promise!
-  // Component suspends until data is ready
-  return <div>{users.map(...)}</div>;
-};
-```
+### React 19 Modern features
 
 #### `useActionState` for Form Submissions
 
@@ -180,29 +164,9 @@ http://localhost:3000
 | PUT    | `/api/users/:id` | Update user by ID |
 | DELETE | `/api/users/:id` | Delete user by ID |
 
-## Key Concepts
-
-### Caching Strategy
-
-- Uses React's built-in `cache()` function
-- Ensures stable Promise references for `use()` API
-- Prevents infinite suspension loops
-- Automatic deduplication
-
-### Suspense Integration
-
-- Declarative loading states
-- Cleaner component tree
-
-### TypeScript Integration
-
-- Full type safety across frontend
-
 ## Learn More
 
 - [React 19 Documentation](https://react.dev/)
-- [use() API Reference](https://react.dev/reference/react/use)
 - [useActionState Hook](https://react.dev/reference/react/useActionState)
-- [Suspense for Data Fetching](https://react.dev/reference/react/Suspense)
 
 **Built with using React 19's latest features**
