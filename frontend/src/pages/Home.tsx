@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link } from 'react-router';
 import { useActionState } from 'react';
 import { createUserAction } from '../actions/userActions';
 
