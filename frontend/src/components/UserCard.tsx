@@ -1,10 +1,10 @@
-import { getInitial, formatDate } from '../libs/utils';
+import { getInitial, formatDate } from '@/libs/utils';
 import { useState } from 'react';
 
-import type { User } from '../types/user';
+import type { User } from '@/types/user';
 
-import { deleteUser } from '../actions/deleteUser';
-import EditUserModal from './EditUserModal';
+import { deleteUser } from '@/actions/deleteUser';
+import EditUserModal from '@/components/EditUserModal';
 
 type UserCardProps = {
   user: User;

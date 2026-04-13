@@ -1,7 +1,14 @@
 import { useActionState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
 
-import type { User } from '../types/user';
-import { updateUserAction } from '../actions/updateUser';
+import type { User, UserFormValues } from '@/types/user';
+
+import { updateUserAction } from '@/actions/updateUser';
+import {
+  nameValidation,
+  emailValidation,
+  phoneValidation,
+} from '@/libs/validation';
 
 type EditUserModalProps = {
   user: User;
@@ -21,6 +28,19 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
     initialState
   );
 
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<UserFormValues>({
+    defaultValues: {
+      name: user.name,
+      email: user.email,
+      city: user.city,
+      phone_number: user.phone_number,
+    },
+  });
+
   useEffect(() => {
     if (state.success && state.updatedData) {
       const updatedUser: User = {
@@ -31,6 +51,16 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
       onClose();
     }
   }, [state.success, state.updatedData, user, onUpdate, onClose]);
+
+  const onSubmit = (data: UserFormValues) => {
+    const formData = new FormData();
+    formData.append('userId', String(user.id));
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('city', data.city ?? '');
+    formData.append('phone_number', data.phone_number ?? '');
+    formAction(formData);
+  };
 
   return (
     <div className="fixed inset-0 backdrop-blur-sm bg-black/30 flex items-center justify-center p-4 z-50">
@@ -51,9 +81,11 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
           </div>
         )}
 
-        <form action={formAction} className="space-y-4">
-          <input type="hidden" name="userId" value={user.id} />
-
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="space-y-4"
+          noValidate
+        >
           <div>
             <label
               htmlFor="name"
@@ -64,11 +96,16 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
             <input
               type="text"
               id="name"
-              name="name"
-              defaultValue={user.name}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              {...register('name', nameValidation)}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent ${
+                errors.name
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
             />
+            {errors.name && (
+              <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -81,11 +118,18 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
             <input
               type="email"
               id="email"
-              name="email"
-              defaultValue={user.email}
-              required
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              {...register('email', emailValidation)}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent ${
+                errors.email
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
             />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -98,8 +142,7 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
             <input
               type="text"
               id="city"
-              name="city"
-              defaultValue={user.city}
+              {...register('city')}
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
             />
           </div>
@@ -114,10 +157,18 @@ const EditUserModal = ({ user, onClose, onUpdate }: EditUserModalProps) => {
             <input
               type="tel"
               id="phone_number"
-              name="phone_number"
-              defaultValue={user.phone_number}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent"
+              {...register('phone_number', phoneValidation)}
+              className={`w-full px-4 py-2 border rounded-lg focus:ring-2 focus:border-transparent ${
+                errors.phone_number
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
             />
+            {errors.phone_number && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.phone_number.message}
+              </p>
+            )}
           </div>
 
           <div className="flex gap-3 pt-4">

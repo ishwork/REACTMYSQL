@@ -1,6 +1,19 @@
 import { Link } from 'react-router';
-import { useActionState } from 'react';
-import { createUserAction } from '../actions/userActions';
+import { useActionState, useEffect } from 'react';
+import { useForm } from 'react-hook-form';
+import { createUserAction } from '@/actions/userActions';
+import {
+  nameValidation,
+  emailValidation,
+  phoneValidation,
+} from '@/libs/validation';
+
+type UserFormValues = {
+  name: string;
+  email: string;
+  city: string;
+  phone_number: string;
+};
 
 const initialState = {
   success: false,
@@ -13,6 +26,28 @@ const Home = () => {
     createUserAction,
     initialState
   );
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<UserFormValues>();
+
+  useEffect(() => {
+    if (state.success) {
+      reset();
+    }
+  }, [state.success, reset]);
+
+  const onSubmit = (data: UserFormValues) => {
+    const formData = new FormData();
+    formData.append('name', data.name);
+    formData.append('email', data.email);
+    formData.append('city', data.city ?? '');
+    formData.append('phone_number', data.phone_number ?? '');
+    formAction(formData);
+  };
 
   return (
     <div className="max-w-4xl mx-auto px-4 py-16">
@@ -50,9 +85,9 @@ const Home = () => {
         )}
 
         <form
-          action={formAction}
+          onSubmit={handleSubmit(onSubmit)}
           className="space-y-6"
-          key={state.success ? 'success' : 'idle'}
+          noValidate
         >
           <div>
             <label
@@ -64,11 +99,17 @@ const Home = () => {
             <input
               type="text"
               id="name"
-              name="name"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+              {...register('name', nameValidation)}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent outline-none transition ${
+                errors.name
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
               placeholder="Enter full name"
             />
+            {errors.name && (
+              <p className="mt-1 text-xs text-red-600">{errors.name.message}</p>
+            )}
           </div>
 
           <div>
@@ -81,11 +122,19 @@ const Home = () => {
             <input
               type="email"
               id="email"
-              name="email"
-              required
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+              {...register('email', emailValidation)}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent outline-none transition ${
+                errors.email
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
               placeholder="Enter email address"
             />
+            {errors.email && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.email.message}
+              </p>
+            )}
           </div>
 
           <div>
@@ -98,7 +147,7 @@ const Home = () => {
             <input
               type="text"
               id="city"
-              name="city"
+              {...register('city')}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
               placeholder="Enter city"
             />
@@ -114,10 +163,19 @@ const Home = () => {
             <input
               type="tel"
               id="phone_number"
-              name="phone_number"
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500 focus:border-transparent outline-none transition"
+              {...register('phone_number', phoneValidation)}
+              className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:border-transparent outline-none transition ${
+                errors.phone_number
+                  ? 'border-red-400 focus:ring-red-400'
+                  : 'border-gray-300 focus:ring-purple-500'
+              }`}
               placeholder="Enter phone number"
             />
+            {errors.phone_number && (
+              <p className="mt-1 text-xs text-red-600">
+                {errors.phone_number.message}
+              </p>
+            )}
           </div>
 
           <button
