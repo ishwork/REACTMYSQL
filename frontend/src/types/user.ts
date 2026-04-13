@@ -6,3 +6,10 @@ export type User = {
   phone_number: string;
   created_at: string;
 };
+
+export type UserFormValues = {
+  name: string;
+  email: string;
+  city: string;
+  phone_number: string;
+};
