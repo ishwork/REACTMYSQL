@@ -37,39 +37,6 @@ _Create new users with `useActionState` for form handling_
 - **Conditional error styling** - Fields highlight red when validation fails
 - **Validation rules** - Name (required, 2–100 chars, letters only), Email (required, valid format), Phone (optional, valid format)
 
-**Creating Users:**
-
-```tsx
-const [state, formAction, isPending] = useActionState(
-  createUserAction,
-  initialState
-);
-
-<form action={formAction}>
-  <input name="email" />
-  <button disabled={isPending}>
-    {isPending ? 'Creating...' : 'Create User'}
-  </button>
-</form>;
-```
-
-**Updating Users:**
-
-```tsx
-const [state, formAction, isPending] = useActionState(
-  updateUserAction,
-  initialState
-);
-
-<form action={formAction}>
-  <input type="hidden" name="userId" value={user.id} />
-  <input name="name" defaultValue={user.name} />
-  <button disabled={isPending}>
-    {isPending ? 'Updating...' : 'Update User'}
-  </button>
-</form>;
-```
-
 ### Technical Stack
 
 **Frontend:**
