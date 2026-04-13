@@ -29,6 +29,14 @@ _Create new users with `useActionState` for form handling_
 - **Server actions pattern** - Clean separation of concerns
 - **Used for both Create and Update operations** - Consistent pattern across mutations
 
+#### `react-hook-form` for Client-Side Validation
+
+- **Inline error messages** - Instant feedback shown below each field on invalid input
+- **Shared validation rules** - Centralised rules in `src/libs/validation.ts` reused across forms
+- **Controlled reset** - Form clears automatically on successful submission via `reset()`
+- **Conditional error styling** - Fields highlight red when validation fails
+- **Validation rules** - Name (required, 2–100 chars, letters only), Email (required, valid format), Phone (optional, valid format)
+
 **Creating Users:**
 
 ```tsx
